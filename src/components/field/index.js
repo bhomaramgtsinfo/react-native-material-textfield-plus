@@ -183,8 +183,9 @@ export default class TextField extends PureComponent {
     let labelState = labelStateFromProps(this.props, { text })? 1 : 0;
     let focusState = errorStateFromProps(this.props)? -1 : 0;
 
+
     this.state = {
-      text,
+      text: '',
       error,
 
       focusAnimation: new Animated.Value(focusState),
@@ -650,10 +651,14 @@ export default class TextField extends PureComponent {
     let props = this.inputProps();
     let inputStyle = this.inputStyle();
 
+    if(this.state.text == '' && !!this.props.value){
+      this.setState({ text: this.props.value })
+    }
+
     return (
       <TextInput
         selectionColor={tintColor}
-
+        value={this.value()}
         {...props}
 
         style={[styles.input, inputStyle, inputStyleOverrides]}
@@ -663,7 +668,6 @@ export default class TextField extends PureComponent {
         onContentSizeChange={this.onContentSizeChange}
         onFocus={this.onFocus}
         onBlur={this.onBlur}
-        value={this.value()}
         ref={this.inputRef}
       />
     );
